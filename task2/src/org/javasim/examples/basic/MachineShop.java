@@ -30,8 +30,6 @@ public class MachineShop extends SimulationProcess
 {
     public MachineShop(boolean isBreaks)
     {
-        useBreaks = isBreaks;
-
         TotalResponseTime = 0.0;
         TotalJobs = 0;
         ProcessedJobs = 0;
@@ -45,18 +43,11 @@ public class MachineShop extends SimulationProcess
     {
         try
         {
-            Breaks B = null;
-            Arrivals A = new Arrivals(8);
-            MachineShop.M = new Machine(8);
-            Job J = new Job();
+            Arrivals A = new Arrivals(8,8);
+            MachineShop.M = new Machine();
+            Job J = new Job(8);
 
             A.activate();
-
-            if (useBreaks)
-            {
-                B = new Breaks();
-                B.activate();
-            }
 
             Simulation.start();
 
@@ -82,9 +73,6 @@ public class MachineShop extends SimulationProcess
 
             A.terminate();
             MachineShop.M.terminate();
-
-            if (useBreaks)
-                B.terminate();
 
             SimulationProcess.mainResume();
         }
@@ -119,6 +107,4 @@ public class MachineShop extends SimulationProcess
     public static double MachineActiveTime = 0.0;
 
     public static double MachineFailedTime = 0.0;
-
-    private boolean useBreaks;
 }

@@ -29,9 +29,8 @@ import org.javasim.streams.ExponentialStream;
 
 public class Machine extends SimulationProcess
 {
-    public Machine(double mean)
+    public Machine()
     {
-        STime = new ExponentialStream(mean);
         operational = true;
         working = false;
         J = null;
@@ -55,7 +54,7 @@ public class Machine extends SimulationProcess
 
                 try
                 {
-                    hold(serviceTime());
+                    hold(J.serviceTime());
                 }
                 catch (SimulationException e)
                 {
@@ -107,20 +106,6 @@ public class Machine extends SimulationProcess
     {
         return working;
     }
-
-    public double serviceTime ()
-    {
-        try
-        {
-            return STime.getNumber();
-        }
-        catch (IOException e)
-        {
-            return 0.0;
-        }
-    }
-
-    private ExponentialStream STime;
 
     private boolean operational;
 
