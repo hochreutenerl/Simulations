@@ -25,10 +25,9 @@ import org.javasim.Simulation;
 import org.javasim.SimulationException;
 import org.javasim.SimulationProcess;
 
-public class MachineShop extends SimulationProcess
-{
-	public static Machine M = null;
-    public static Queue JobQ = new Queue();
+public class MachineShop extends SimulationProcess {
+	public static Queue JobQ = new Queue();
+    private static ProcessQueue idleQ;
     public static double TotalResponseTime = 0.0;
     public static long TotalJobs = 0;
     public static long ProcessedJobs = 0;
@@ -50,8 +49,15 @@ public class MachineShop extends SimulationProcess
     public void run () {
         try {
             Arrivals A = new Arrivals(8,8);
-            M = new Machine();
-            Monitor mon = new Monitor(1, M, JobQ);
+            
+            //Create idle queue and add machines to it
+            idleQ = new ProcessQueue();
+            for (int i = 0; i < 3; i++) {
+            	idleQ.Enqueue(new Machine());
+            }
+            
+            //Monitor the first machine in the idle queue
+            Monitor mon = new Monitor(1, (Machine) idleQ.getNextProcess(), JobQ);
 
             mon.activate();
             A.activate();
@@ -76,13 +82,12 @@ public class MachineShop extends SimulationProcess
             System.out.println("Average number of jobs present = "
                     + (JobsInQueue / CheckFreq));
             
-            System.out.println("Average queue length = " + mon.avgQueueLength());
-            System.out.println("Utilization = " + mon.utilization());
+            System.out.println("Average queue length of monitored machine = " + mon.avgQueueLength());
+            System.out.println("Utilization of monitored machine = " + mon.utilization());
 
             Simulation.stop();
 
             A.terminate();
-            M.terminate();
             mon.terminate();
 
             SimulationProcess.mainResume();
@@ -99,4 +104,8 @@ public class MachineShop extends SimulationProcess
         this.resumeProcess();
         SimulationProcess.mainSuspend();
     }
+    
+    public static ProcessQueue getIdleQ() {
+		return idleQ;
+	}
 }

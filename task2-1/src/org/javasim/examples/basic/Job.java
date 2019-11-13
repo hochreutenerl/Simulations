@@ -40,20 +40,23 @@ public class Job {
         empty = MachineShop.JobQ.isEmpty();
         MachineShop.JobQ.enqueue(this);
         MachineShop.TotalJobs++;
-
-        if (empty && !org.javasim.examples.basic.MachineShop.M.processing()
-                && org.javasim.examples.basic.MachineShop.M.isOperational())
-        {
-            try
-            {
-                MachineShop.M.activate();
-            }
-            catch (SimulationException e)
-            {
-            }
-            catch (RestartException e)
-            {
-            }
+        
+        ProcessQueue idleQ = MachineShop.getIdleQ();
+        
+        //Start next machine if one is available and there are no jobs in the job queue ahead of this
+        if (!idleQ.IsEmpty() && empty) {
+        	Machine next = (Machine) idleQ.getNextProcess();
+        	
+        	if (!next.processing() && next.isOperational()) {
+        		try {
+            		next = (Machine) idleQ.Dequeue();
+    				next.activate();
+    			} catch (SimulationException e) {
+    				e.printStackTrace();
+    			} catch (RestartException e) {
+    				e.printStackTrace();
+    			}
+        	}
         }
     }
 

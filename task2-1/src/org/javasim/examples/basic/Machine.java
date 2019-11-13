@@ -40,7 +40,8 @@ public class Machine extends SimulationProcess {
 
         while (!terminated())
         {
-            working = true;
+        	ProcessQueue idleQ = MachineShop.getIdleQ();
+        	working = true;
 
             while (!MachineShop.JobQ.isEmpty())
             {
@@ -73,6 +74,7 @@ public class Machine extends SimulationProcess {
                 J.finished();
             }
 
+            idleQ.Enqueue(this);
             working = false;
 
             try
