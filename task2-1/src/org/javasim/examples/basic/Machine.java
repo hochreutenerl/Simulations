@@ -20,24 +20,22 @@
 
 package org.javasim.examples.basic;
 
-import java.io.IOException;
-
 import org.javasim.RestartException;
 import org.javasim.SimulationException;
 import org.javasim.SimulationProcess;
-import org.javasim.streams.ExponentialStream;
 
-public class Machine extends SimulationProcess
-{
-    public Machine()
-    {
+public class Machine extends SimulationProcess {
+	private boolean operational;
+    private boolean working;
+    private Job J;
+    
+    public Machine() {
         operational = true;
         working = false;
         J = null;
     }
 
-    public void run ()
-    {
+    public void run () {
         double ActiveStart, ActiveEnd;
 
         while (!terminated())
@@ -106,10 +104,4 @@ public class Machine extends SimulationProcess
     {
         return working;
     }
-
-    private boolean operational;
-
-    private boolean working;
-
-    private Job J;
 }

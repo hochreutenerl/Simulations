@@ -23,15 +23,14 @@ package org.javasim.examples.basic;
 import org.javasim.RestartException;
 import org.javasim.Scheduler;
 import org.javasim.SimulationException;
-import org.javasim.streams.ExponentialStream;
 
-import java.io.IOException;
-
-public class Job
-{
-    public Job(double mean)
-    {
-        STime = new ExponentialStream(mean);
+public class Job {
+    private double ResponseTime;
+    private double ArrivalTime;
+    private double ServiceTime;
+    
+    public Job(double serviceTime) {
+		ServiceTime = serviceTime;
         
         boolean empty = false;
 
@@ -58,27 +57,12 @@ public class Job
         }
     }
 
-    public void finished ()
-    {
+    public void finished () {
         ResponseTime = Scheduler.currentTime() - ArrivalTime;
         MachineShop.TotalResponseTime += ResponseTime;
     }
 
-    public double serviceTime ()
-    {
-        try
-        {
-            return STime.getNumber();
-        }
-        catch (IOException e)
-        {
-            return 0.0;
-        }
+    public double serviceTime () {
+        return ServiceTime;
     }
-
-    private ExponentialStream STime;
-
-    private double ResponseTime;
-
-    private double ArrivalTime;
 }

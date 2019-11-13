@@ -28,6 +28,9 @@ import org.javasim.SimulationProcess;
 import org.javasim.streams.ExponentialStream;
 
 public class Arrivals extends SimulationProcess {
+	private ExponentialStream InterArrivalTime;
+    private ExponentialStream ServiceTime;
+    
     public Arrivals(double mean, double serviceMean) {
         InterArrivalTime = new ExponentialStream(mean);
         ServiceTime = new ExponentialStream(serviceMean);
@@ -39,12 +42,12 @@ public class Arrivals extends SimulationProcess {
                 hold(InterArrivalTime.getNumber());
                 new org.javasim.examples.basic.Job(ServiceTime.getNumber());
             } catch (SimulationException e) {
+            	
             } catch (RestartException e) {
+            	
             } catch (IOException e) {
+            	
             }
         }
     }
-
-    private ExponentialStream InterArrivalTime;
-    private ExponentialStream ServiceTime;
 }

@@ -23,8 +23,6 @@ package org.javasim.examples.basic;
 import org.javasim.Simulation;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class BasicExampleUnitTest
 {
     @Test

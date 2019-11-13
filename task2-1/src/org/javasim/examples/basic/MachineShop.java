@@ -21,15 +21,23 @@
 package org.javasim.examples.basic;
 
 import org.javasim.RestartException;
-import org.javasim.Scheduler;
 import org.javasim.Simulation;
 import org.javasim.SimulationException;
 import org.javasim.SimulationProcess;
 
 public class MachineShop extends SimulationProcess
 {
-    public MachineShop(boolean isBreaks)
-    {
+	public static Machine M = null;
+    public static Queue JobQ = new Queue();
+    public static double TotalResponseTime = 0.0;
+    public static long TotalJobs = 0;
+    public static long ProcessedJobs = 0;
+    public static long JobsInQueue = 0;
+    public static long CheckFreq = 0;
+    public static double MachineActiveTime = 0.0;
+    public static double MachineFailedTime = 0.0;
+    
+    public MachineShop(boolean isBreaks) {
         TotalResponseTime = 0.0;
         TotalJobs = 0;
         ProcessedJobs = 0;
@@ -39,14 +47,13 @@ public class MachineShop extends SimulationProcess
         MachineFailedTime = 0.0;
     }
 
-    public void run ()
-    {
-        try
-        {
+    public void run () {
+        try {
             Arrivals A = new Arrivals(8,8);
-            MachineShop.M = new Machine();
-            Job J = new Job(8);
+            M = new Machine();
+            Monitor mon = new Monitor(1, M, JobQ);
 
+            mon.activate();
             A.activate();
 
             Simulation.start();
@@ -68,43 +75,28 @@ public class MachineShop extends SimulationProcess
                     + (MachineFailedTime / MachineActiveTime));
             System.out.println("Average number of jobs present = "
                     + (JobsInQueue / CheckFreq));
+            
+            System.out.println("Average queue length = " + mon.avgQueueLength());
+            System.out.println("Utilization = " + mon.utilization());
 
             Simulation.stop();
 
             A.terminate();
-            MachineShop.M.terminate();
+            M.terminate();
+            mon.terminate();
 
             SimulationProcess.mainResume();
         }
-        catch (SimulationException e)
-        {
+        catch (SimulationException e) {
+        	
         }
-        catch (RestartException e)
-        {
+        catch (RestartException e) {
+        	
         }
     }
 
-    public void await ()
-    {
+    public void await () {
         this.resumeProcess();
         SimulationProcess.mainSuspend();
     }
-
-    public static Machine M = null;
-
-    public static Queue JobQ = new Queue();
-
-    public static double TotalResponseTime = 0.0;
-
-    public static long TotalJobs = 0;
-
-    public static long ProcessedJobs = 0;
-
-    public static long JobsInQueue = 0;
-
-    public static long CheckFreq = 0;
-
-    public static double MachineActiveTime = 0.0;
-
-    public static double MachineFailedTime = 0.0;
 }
