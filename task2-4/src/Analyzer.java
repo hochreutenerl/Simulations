@@ -9,16 +9,15 @@ public class Analyzer {
         this.subject = subject;
     }
 
-    public void run(int cycles) throws CycleCompletedException {
+    public int getCycleLength(int cycles) {
         for (int i = 0; i < cycles; i++) {
             int next = subject.nextValue();
-            // System.out.println("On cycle " + i + " the number is " + next);
             if(numbers.contains(next)) {
-                throw new CycleCompletedException("Cycle completed at cycle: " + i);
+                return i;
             } else {
                 numbers.add(next);
             }
         }
-        System.out.println("Run through " + cycles + " cycles");
+        return cycles;
     }
 }

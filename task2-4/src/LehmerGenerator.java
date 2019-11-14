@@ -1,9 +1,9 @@
 public class LehmerGenerator implements Analyzable {
 
-    private int m = 100000001;
-    private int a = 23;
-    private int c = 0;
-    private int x;
+    protected int m = 100000001;
+    protected int a = 23;
+    protected int c = 0;
+    protected int x;
 
     public LehmerGenerator(int seed) {
         x = seed;
@@ -12,5 +12,9 @@ public class LehmerGenerator implements Analyzable {
     public int nextValue() {
         x = (a * x + c) % m;
         return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
     }
 }
