@@ -24,12 +24,12 @@ import org.javasim.RestartException;
 import org.javasim.SimulationException;
 import org.javasim.SimulationProcess;
 
-public class Machine extends SimulationProcess {
+public class Machine1 extends SimulationProcess {
 	private boolean operational;
     private boolean working;
     private Job J;
     
-    public Machine() {
+    public Machine1() {
         operational = true;
         working = false;
         J = null;
@@ -40,70 +40,70 @@ public class Machine extends SimulationProcess {
 
         while (!terminated())
         {
-        	ProcessQueue idleQ = MachineShop.getIdleQ();
+        	Queue prepQ = MachineShop.getPreparationQueue();
+        	ProcessQueue idleQ = MachineShop.getIdleQ1();
         	working = true;
 
-            while (!MachineShop.JobQ.isEmpty())
+            while (!prepQ.isEmpty())
             {
                 ActiveStart = currentTime();
                 MachineShop.CheckFreq++;
 
-                MachineShop.JobsInQueue += MachineShop.JobQ.queueSize();
-                J = MachineShop.JobQ.dequeue();
+                MachineShop.JobsInQueue += prepQ.queueSize();
+                J = prepQ.dequeue();
 
-                try
-                {
-                    hold(J.serviceTime());
+                try {
+                    hold(J.preparationTime());
                 }
-                catch (SimulationException e)
-                {
+                catch (SimulationException e) {
                 }
-                catch (RestartException e)
-                {
+                catch (RestartException e) {
                 }
 
                 ActiveEnd = currentTime();
                 MachineShop.MachineActiveTime += ActiveEnd - ActiveStart;
-                MachineShop.ProcessedJobs++;
-
-                /*
-                 * Introduce this new method because we usually rely upon the
-                 * destructor of the object to do the work in C++.
-                 */
-
-                J.finished();
+                
+                //Add client to operation queue
+                Queue opQ = MachineShop.getOperationQueue();
+                opQ.enqueue(J);
+                
+                //Activate operation machine if it isn't active
+                Machine2 m = MachineShop.getOperationTheatre();
+                if (!m.processing()) {
+                	try {
+						m.activate();
+					} catch (SimulationException e) {
+						e.printStackTrace();
+					} catch (RestartException e) {
+						e.printStackTrace();
+					}
+                }
             }
 
             idleQ.Enqueue(this);
             working = false;
 
-            try
-            {
+            try {
                 cancel();
             }
-            catch (RestartException e)
-            {
+            catch (RestartException e) {
             }
         }
     }
 
-    public void broken ()
-    {
+    public void broken () {
         operational = false;
     }
 
-    public void fixed ()
-    {
+    public void fixed () {
         operational = true;
     }
 
-    public boolean isOperational ()
-    {
+    public boolean isOperational () {
         return operational;
     }
 
-    public boolean processing ()
-    {
+    public boolean processing () {
         return working;
     }
 }

@@ -7,7 +7,7 @@ import org.javasim.SimulationException;
 import org.javasim.SimulationProcess;
 
 public class Monitor extends SimulationProcess {
-	private Machine mTarget;
+	private Machine2 mTarget;
 	private Queue qTarget;
 	private double interval;
 	private int checkCount = 0;
@@ -20,7 +20,7 @@ public class Monitor extends SimulationProcess {
 	 * @param machine to be monitored
 	 * @param queue to be monitored
 	 */
-	public Monitor(double interval, Machine machine, Queue queue) {
+	public Monitor(double interval, Machine2 machine, Queue queue) {
 		this.interval = interval;
 		mTarget = machine;
 		qTarget = queue;
