@@ -9,6 +9,13 @@ public class LehmerGenerator implements Analyzable {
         x = seed;
     }
 
+    public LehmerGenerator(int m, int a, int c, int seed) {
+        this.m = m;
+        this.a = a;
+        this.c = c;
+        x = seed;
+    }
+
     private void next() {
         x = (a * x + c) % m;
     }
@@ -25,7 +32,4 @@ public class LehmerGenerator implements Analyzable {
         return Math.abs((double) x / m);
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
 }
