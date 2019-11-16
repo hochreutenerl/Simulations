@@ -9,9 +9,20 @@ public class LehmerGenerator implements Analyzable {
         x = seed;
     }
 
-    public int nextValue() {
+    private void next() {
         x = (a * x + c) % m;
+    }
+
+    @Override
+    public int nextValue() {
+        next();
         return x;
+    }
+
+    @Override
+    public double nextDouble() {
+        next();
+        return Math.abs((double) x / m);
     }
 
     public void setX(int x) {

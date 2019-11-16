@@ -9,21 +9,27 @@ public class Main {
         LehmerGenerator l = new LehmerGenerator(seed);
         Analyzer al = new Analyzer(l);
         al.run(maxCycles);
-        System.out.println("Lehmer unique numbers:" +  al.uniqueNumbers());
-        System.out.println("Lehmer highest number:" +  al.highestNumber());
-        System.out.println("Lehmer lowest number:" +  al.lowesetNumber());
-        System.out.println("Lehmer average number:" +  al.averageNumber());
-        System.out.println("Lehmer variance:" +  al.variance());
+        al.printAnalysis("Lehmer");
+
+        System.out.println("***");
+
+        LehmerGenerator lr = new LehmerGenerator(seed);
+        Analyzer alr = new Analyzer(lr);
+        alr.run(maxCycles, 0.01);
+        alr.printAnalysis("Lehmer reduced");
 
         System.out.println("***");
 
         ShuffledGenerator s = new ShuffledGenerator(seed, 1000);
         Analyzer as = new Analyzer(s);
         as.run(maxCycles);
-        System.out.println("Shuffled unique numbers:" +  as.uniqueNumbers());
-        System.out.println("Shuffled highest number:" +  as.highestNumber());
-        System.out.println("Shuffled lowest number:" +  as.lowesetNumber());
-        System.out.println("Shuffled average number:" +  as.averageNumber());
-        System.out.println("Shuffled variance:" +  as.variance());
+        as.printAnalysis("Shuffled");
+
+        System.out.println("***");
+
+        ShuffledGenerator sr = new ShuffledGenerator(seed, 1000);
+        Analyzer asr = new Analyzer(sr);
+        asr.run(maxCycles, 0.01);
+        asr.printAnalysis("Shuffled reduced");
     }
 }

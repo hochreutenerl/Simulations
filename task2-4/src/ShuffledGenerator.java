@@ -29,4 +29,9 @@ public class ShuffledGenerator extends LehmerGenerator implements Analyzable {
         randomTable[index] = a.nextValue();
         return next;
     }
+
+    @Override
+    public double nextDouble() {
+        return Math.abs((double) nextValue() / m);
+    }
 }
