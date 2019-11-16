@@ -8,10 +8,22 @@ public class Main {
 
         LehmerGenerator l = new LehmerGenerator(seed);
         Analyzer al = new Analyzer(l);
-        System.out.println("Lehmer cycle length:" +  al.getCycleLength(maxCycles));
+        al.run(maxCycles);
+        System.out.println("Lehmer unique numbers:" +  al.uniqueNumbers());
+        System.out.println("Lehmer highest number:" +  al.highestNumber());
+        System.out.println("Lehmer lowest number:" +  al.lowesetNumber());
+        System.out.println("Lehmer average number:" +  al.averageNumber());
+        System.out.println("Lehmer variance:" +  al.variance());
+
+        System.out.println("***");
 
         ShuffledGenerator s = new ShuffledGenerator(seed, 1000);
         Analyzer as = new Analyzer(s);
-        System.out.println("Shuffled cycle length:" +  as.getCycleLength(maxCycles));
+        as.run(maxCycles);
+        System.out.println("Shuffled unique numbers:" +  as.uniqueNumbers());
+        System.out.println("Shuffled highest number:" +  as.highestNumber());
+        System.out.println("Shuffled lowest number:" +  as.lowesetNumber());
+        System.out.println("Shuffled average number:" +  as.averageNumber());
+        System.out.println("Shuffled variance:" +  as.variance());
     }
 }
