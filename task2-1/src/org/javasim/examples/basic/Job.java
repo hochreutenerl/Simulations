@@ -27,29 +27,31 @@ import org.javasim.SimulationException;
 public class Job {
     private double ResponseTime;
     private double ArrivalTime;
-    private double ServiceTime;
+    private double preparationTime;
+    private double operationTime;
+    private double recoveryTime;
     
-    public Job(double serviceTime) {
-		ServiceTime = serviceTime;
-        
-        boolean empty = false;
+    public Job(double preparationTime, double operationTime, double recoveryTime) {
+		this.preparationTime = preparationTime;
+		this.operationTime = operationTime;
+		this.recoveryTime = recoveryTime;
 
         ResponseTime = 0.0;
         ArrivalTime = Scheduler.currentTime();
 
-        empty = MachineShop.JobQ.isEmpty();
-        MachineShop.JobQ.enqueue(this);
+        Queue prepQ = MachineShop.getPreparationQueue();
+        boolean empty = prepQ.isEmpty();
+        prepQ.enqueue(this);
         MachineShop.TotalJobs++;
         
-        ProcessQueue idleQ = MachineShop.getIdleQ();
+        ProcessQueue idleQ = MachineShop.getIdleQ1();
         
         //Start next machine if one is available and there are no jobs in the job queue ahead of this
         if (!idleQ.IsEmpty() && empty) {
-        	Machine next = (Machine) idleQ.getNextProcess();
-        	
+        	Machine1 next = (Machine1) idleQ.getNextProcess();
         	if (!next.processing() && next.isOperational()) {
         		try {
-            		next = (Machine) idleQ.Dequeue();
+            		next = (Machine1) idleQ.Dequeue();
     				next.activate();
     			} catch (SimulationException e) {
     				e.printStackTrace();
@@ -60,12 +62,20 @@ public class Job {
         }
     }
 
-    public void finished () {
+    public void finished() {
         ResponseTime = Scheduler.currentTime() - ArrivalTime;
         MachineShop.TotalResponseTime += ResponseTime;
     }
 
-    public double serviceTime () {
-        return ServiceTime;
+    public double preparationTime() {
+        return preparationTime;
+    }
+    
+    public double operationTime() {
+        return operationTime;
+    }
+    
+    public double recoveryTime() {
+        return recoveryTime;
     }
 }

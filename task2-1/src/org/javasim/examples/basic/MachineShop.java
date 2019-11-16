@@ -26,8 +26,12 @@ import org.javasim.SimulationException;
 import org.javasim.SimulationProcess;
 
 public class MachineShop extends SimulationProcess {
-	public static Queue JobQ = new Queue();
-    private static ProcessQueue idleQ;
+	private static Queue prepQ = new Queue();
+	private static Queue opQ = new Queue();
+	private static Queue recQ = new Queue();
+    private static ProcessQueue idleQ1;
+    private static ProcessQueueAlt<Machine3> idleQ2;
+    private static Machine2 op;
     public static double TotalResponseTime = 0.0;
     public static long TotalJobs = 0;
     public static long ProcessedJobs = 0;
@@ -48,16 +52,25 @@ public class MachineShop extends SimulationProcess {
 
     public void run () {
         try {
-            Arrivals A = new Arrivals(8,8);
+            Arrivals A = new Arrivals(25, 40, 20, 40);
             
-            //Create idle queue and add machines to it
-            idleQ = new ProcessQueue();
+            //Preparation machines
+            idleQ1 = new ProcessQueue();
             for (int i = 0; i < 3; i++) {
-            	idleQ.Enqueue(new Machine());
+            	idleQ1.Enqueue(new Machine1());
             }
             
-            //Monitor the first machine in the idle queue
-            Monitor mon = new Monitor(1, (Machine) idleQ.getNextProcess(), JobQ);
+            //Operation machine
+            op = new Machine2();
+            
+            //Recovery machines
+            idleQ2 = new ProcessQueueAlt<Machine3>();
+            for (int i = 0; i < 3; i++) {
+            	idleQ2.enqueue(new Machine3());
+            }
+            
+            //Monitor the operation machine and operation queue
+            Monitor mon = new Monitor(100, op, opQ);
 
             mon.activate();
             A.activate();
@@ -74,11 +87,13 @@ public class MachineShop extends SimulationProcess {
             System.out.println("Total response time of " + TotalResponseTime);
             System.out.println("Average response time = "
                     + (TotalResponseTime / ProcessedJobs));
+            /*
             System.out
                     .println("Probability that machine is working = "
                             + ((MachineActiveTime - MachineFailedTime) / currentTime()));
             System.out.println("Probability that machine has failed = "
                     + (MachineFailedTime / MachineActiveTime));
+            */
             System.out.println("Average number of jobs present = "
                     + (JobsInQueue / CheckFreq));
             
@@ -105,7 +120,27 @@ public class MachineShop extends SimulationProcess {
         SimulationProcess.mainSuspend();
     }
     
-    public static ProcessQueue getIdleQ() {
-		return idleQ;
+    public static ProcessQueue getIdleQ1() {
+		return idleQ1;
 	}
+    
+    public static ProcessQueueAlt<Machine3> getIdleQ2() {
+		return idleQ2;
+	}
+    
+    public static Queue getPreparationQueue() {
+    	return prepQ;
+    }
+    
+    public static Queue getOperationQueue() {
+    	return opQ;
+    }
+    
+    public static Queue getRecoveryQueue() {
+    	return recQ;
+    }
+    
+    public static Machine2 getOperationTheatre() {
+    	return op;
+    }
 }
