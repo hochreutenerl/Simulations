@@ -32,4 +32,8 @@ public class LehmerGenerator implements Analyzable {
         return Math.abs((double) x / m);
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
 }
