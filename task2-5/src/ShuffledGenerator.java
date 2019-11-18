@@ -26,15 +26,13 @@ public class ShuffledGenerator extends LehmerGenerator implements Analyzable {
     @Override
     public int nextValue() {
         int index = Math.floorMod(b.nextValue(), size);
-        int nextSeed = randomTable[index];
-        a.setX(nextSeed);
-        int next = a.nextValue();
-        randomTable[index] = next;
+        int next = randomTable[index];
+        randomTable[index] = a.nextValue();
         return next;
     }
 
     @Override
     public double nextDouble() {
-        return Math.abs((double) nextValue() / m);
+        return new Double(nextValue()) / m;
     }
 }

@@ -17,7 +17,7 @@ public class LehmerGenerator implements Analyzable {
     }
 
     private void next() {
-        x = (a * x + c) % m;
+        x = Math.floorMod(a * x + c, m);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class LehmerGenerator implements Analyzable {
     @Override
     public double nextDouble() {
         next();
-        return Math.abs((double) x / m);
+        return new Double(x) / m;
     }
 
     public void setX(int x) {

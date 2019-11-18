@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * Basically same as ProcessQueue, but created using Java's list object.
+ * Basically same as ProcessQueue, but created using Java's List.
  *
  * @param <T> the type of objects to store in the list
  */
