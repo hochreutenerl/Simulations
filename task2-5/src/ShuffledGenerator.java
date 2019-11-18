@@ -4,11 +4,11 @@ public class ShuffledGenerator extends LehmerGenerator implements Analyzable {
     int[] randomTable;
     int size;
 
-    public ShuffledGenerator(int seed, int size) {
+    public ShuffledGenerator(int seed, int seed2, int size) {
         super(seed);
         // a = new LehmerGenerator(Integer.MAX_VALUE, 49, 0, seed);
         a = new LehmerGenerator(seed);
-        b = new LehmerGenerator(seed);
+        b = new LehmerGenerator(seed2);
         randomTable = generateRandomTable(size);
         this.size = size;
     }

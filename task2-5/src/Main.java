@@ -4,6 +4,7 @@ public class Main {
         // The programme will very likely throw an exception
 
         int seed = 4563685;
+        int seed2 = 32765422;
         int maxCycles = 100000000;
 
         LehmerGenerator l = new LehmerGenerator(seed);
@@ -20,14 +21,14 @@ public class Main {
 
         System.out.println("***");
 
-        ShuffledGenerator s = new ShuffledGenerator(seed, 1000);
+        ShuffledGenerator s = new ShuffledGenerator(seed, seed2, 1000);
         Analyzer as = new Analyzer(s);
         as.run(maxCycles);
         as.printAnalysis("Shuffled");
 
         System.out.println("***");
 
-        ShuffledGenerator sr = new ShuffledGenerator(seed, 1000);
+        ShuffledGenerator sr = new ShuffledGenerator(seed, seed2, 1000);
         Analyzer asr = new Analyzer(sr);
         asr.run(maxCycles, 0.01);
         asr.printAnalysis("Shuffled reduced");
