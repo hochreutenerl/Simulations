@@ -5,6 +5,24 @@ import java.util.*;
 
 
 public class Clinic extends SimulationProcess {
+    public static Arrivals A = null;
+    public static OperationRoom M = null;
+    public static PreparationRoom[] PRooms = new PreparationRoom[10];
+    public static RecoveryRoom[] RRooms = new RecoveryRoom[10];
+    public static Reporter monitor = new Reporter(10);
+    public static LinkedList<Patient> JobQ = new LinkedList<Patient>();
+    public static LinkedList<Patient> RecQ = new LinkedList<Patient>();
+    public static LinkedList<Patient> EntQ = new LinkedList<Patient>();
+    public static LinkedList<SimulationProcess> WaitQ = new LinkedList<SimulationProcess>(); //preparations waiting operation
+    public static LinkedList<SimulationProcess> IWQ = new LinkedList<SimulationProcess>(); // Idle preparations
+    public static LinkedList<SimulationProcess> IRQ = new LinkedList<SimulationProcess>(); //Idle Recoveries
+
+    public static double TotalResponseTime = 0.0;
+    public static long TotalJobs = 0;
+    public static long ProcessedJobs = 0;
+    public static long JobsInQueue = 0;
+    public static long CheckFreq = 0;
+    public static double MachineActiveTime = 0.0;
 
     public Clinic() {
         ExponentialStream inter = new ExponentialStream(25);
@@ -65,24 +83,4 @@ public class Clinic extends SimulationProcess {
         SimulationProcess.mainSuspend();
     }
 
-    public static Arrivals A = null;
-    public static OperationRoom M = null;
-    public static PreparationRoom[] PRooms = new PreparationRoom[10];
-    public static RecoveryRoom[] RRooms = new RecoveryRoom[10];
-    public static Reporter monitor = new Reporter(10);
-    public static LinkedList<Patient> JobQ = new LinkedList<Patient>();
-    public static LinkedList<Patient> RecQ = new LinkedList<Patient>();
-    public static LinkedList<Patient> EntQ = new LinkedList<Patient>();
-    public static LinkedList<SimulationProcess> WaitQ = new LinkedList<SimulationProcess>(); //preparations waiting operation
-    public static LinkedList<SimulationProcess> IWQ = new LinkedList<SimulationProcess>(); // Idle preparations
-    public static LinkedList<SimulationProcess> IRQ = new LinkedList<SimulationProcess>(); //Idle Recoveries
-
-    public static double TotalResponseTime = 0.0;
-    public static long TotalJobs = 0;
-    public static long ProcessedJobs = 0;
-    public static long JobsInQueue = 0;
-    public static long CheckFreq = 0;
-    public static double MachineActiveTime = 0.0;
-
-
-};
+}

@@ -2,6 +2,15 @@ import org.javasim.*;
 
 
 public class Reporter extends SimulationProcess {
+
+    private long checkcount = 0;
+    private long check;
+    private long entryqueue = 0;
+    private long idlewaitqueue = 0;
+    private long blockfrq = 0;
+    private long operfrq = 0;
+    private long recovery_busy_count = 0;
+
     public Reporter(long interval) {
         check = interval;
     }
@@ -10,8 +19,7 @@ public class Reporter extends SimulationProcess {
         for (; ; ) {
             try {
                 hold(check);
-            } catch (SimulationException e) {
-            } catch (RestartException e) {
+            } catch (SimulationException | RestartException e) {
             }
 
             checkcount++;
@@ -43,13 +51,5 @@ public class Reporter extends SimulationProcess {
         operfrq = 0;
         recovery_busy_count = 0;
     }
-
-    private long checkcount = 0;
-    private long check;
-    private long entryqueue = 0;
-    private long idlewaitqueue = 0;
-    private long blockfrq = 0;
-    private long operfrq = 0;
-    private long recovery_busy_count = 0;
 
 }

@@ -3,6 +3,10 @@ import org.javasim.*;
 
 public class OperationRoom extends SimulationProcess {
 
+    private boolean operational;
+    private boolean working;
+    private Patient J;
+    private PreparationRoom waitroom;
 
     public OperationRoom() {
         operational = true;
@@ -39,8 +43,7 @@ public class OperationRoom extends SimulationProcess {
                         Block(); //blocked
                         passivate();
                     }
-                } catch (SimulationException e) {
-                } catch (RestartException e) {
+                } catch (SimulationException | RestartException e) {
                 }
             }
             working = false;
@@ -67,10 +70,4 @@ public class OperationRoom extends SimulationProcess {
         return working;
     }
 
-
-    private boolean operational;
-    private boolean working;
-    private Patient J;
-    private PreparationRoom waitroom;
-
-};
+}

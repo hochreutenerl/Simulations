@@ -1,9 +1,11 @@
-
 import org.javasim.*;
-
 
 public class PreparationRoom extends SimulationProcess {
 
+    private boolean operational;
+    private boolean working;
+    private Patient J;
+    private Patient temp;
 
     public PreparationRoom() {
         working = false;
@@ -23,8 +25,7 @@ public class PreparationRoom extends SimulationProcess {
                     }
                     working = false;
                     Clinic.WaitQ.add(this);
-                } catch (SimulationException e) {
-                } catch (RestartException e) {
+                } catch (SimulationException | RestartException e) {
                 }
 
             }
@@ -56,10 +57,4 @@ public class PreparationRoom extends SimulationProcess {
         J = null;
         return temp;
     }
-
-    private boolean operational;
-    private boolean working;
-    private Patient J;
-    private Patient temp;
-
-};
+}

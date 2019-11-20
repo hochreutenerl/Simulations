@@ -3,6 +3,12 @@ import org.javasim.*;
 
 public class Patient {
 
+    private double ResponseTime;
+    private double ArrivalTime;
+    private double PreDuration;
+    private double OpDuration;
+    private double RecDuration;
+
     public Patient(double pretime, double optime, double rectime) {
 
 
@@ -30,10 +36,4 @@ public class Patient {
         Clinic.TotalResponseTime += ResponseTime;
     }
 
-    private double ResponseTime;
-    private double ArrivalTime;
-    private double PreDuration;
-    private double OpDuration;
-    private double RecDuration;
-
-};
+}

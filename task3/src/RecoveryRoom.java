@@ -2,6 +2,11 @@ import org.javasim.*;
 
 public class RecoveryRoom extends SimulationProcess {
 
+    private boolean operational;
+    private boolean working;
+    private Patient J;
+
+
     public RecoveryRoom() {
         working = false;
         J = null;
@@ -15,8 +20,7 @@ public class RecoveryRoom extends SimulationProcess {
                 J = Clinic.RecQ.remove();
                 try {
                     hold(J.RecoveryTime());
-                } catch (SimulationException e) {
-                } catch (RestartException e) {
+                } catch (SimulationException | RestartException e) {
                 }
                 J.finished(); // last process to touch J. So time to read J:s internal memory
             }
@@ -28,8 +32,7 @@ public class RecoveryRoom extends SimulationProcess {
                     Clinic.M.activate();
                 }
                 passivate();
-            } catch (SimulationException e) {
-            } catch (RestartException e) {
+            } catch (SimulationException | RestartException e) {
             }
         }
     }
@@ -49,10 +52,5 @@ public class RecoveryRoom extends SimulationProcess {
     public boolean Processing() {
         return working;
     }
-
-
-    private boolean operational;
-    private boolean working;
-    private Patient J;
 
 };

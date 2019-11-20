@@ -6,6 +6,11 @@ import java.io.IOException;
 
 public class Arrivals extends SimulationProcess {
     boolean empty = false;
+    private RandomStream InterArrivalTime;
+    private RandomStream PreparationTime;
+    private RandomStream OperationTime;
+    private RandomStream RecoveryTime;
+    private PreparationRoom waitroom;
 
     public Arrivals(RandomStream inter, RandomStream pre, RandomStream op, RandomStream rec) {
         InterArrivalTime = inter;
@@ -26,21 +31,12 @@ public class Arrivals extends SimulationProcess {
                     try {
                         waitroom = (PreparationRoom) Clinic.IWQ.remove();
                         waitroom.activate();
-                    } catch (SimulationException e) {
-                    } catch (RestartException e) {
+                    } catch (SimulationException | RestartException e) {
                     }
                 }
                 hold(InterArrivalTime.getNumber());
-            } catch (SimulationException e) {
-            } catch (RestartException e) {
-            } catch (IOException e) {
+            } catch (SimulationException | RestartException | IOException e) {
             }
         }
     }
-
-    private RandomStream InterArrivalTime;
-    private RandomStream PreparationTime;
-    private RandomStream OperationTime;
-    private RandomStream RecoveryTime;
-    private PreparationRoom waitroom;
-};
+}
