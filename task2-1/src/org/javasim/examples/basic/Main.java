@@ -37,7 +37,7 @@ public class Main
                 isBreaks = true;
         }
 
-        MachineShop m = new MachineShop(isBreaks);
+        Clinic m = new Clinic(isBreaks);
 
         m.await();
 

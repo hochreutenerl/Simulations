@@ -30,7 +30,7 @@ public class BasicExampleUnitTest
     {
         boolean isBreaks = false;
 
-        MachineShop m = new MachineShop(isBreaks);
+        Clinic m = new Clinic(isBreaks);
 
         m.await();
         
@@ -48,7 +48,7 @@ public class BasicExampleUnitTest
     {
         boolean isBreaks = true;
         
-        MachineShop m = new MachineShop(isBreaks);
+        Clinic m = new Clinic(isBreaks);
 
         m.await();
 

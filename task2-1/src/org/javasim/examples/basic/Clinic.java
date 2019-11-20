@@ -25,29 +25,24 @@ import org.javasim.Simulation;
 import org.javasim.SimulationException;
 import org.javasim.SimulationProcess;
 
-public class MachineShop extends SimulationProcess {
+public class Clinic extends SimulationProcess {
 	private static Queue prepQ = new Queue();
 	private static Queue opQ = new Queue();
-	private static Queue recQ = new Queue();
-    private static ProcessQueue idleQ1;
-    private static ProcessQueueAlt<Machine3> idleQ2;
-    private static Machine2 op;
+    private static ProcessQueue preparationIdleQ;
+    private static ProcessQueueAlt<Recovery> recoveryIdleQ;
+    private static Operation op;
     public static double TotalResponseTime = 0.0;
-    public static long TotalJobs = 0;
-    public static long ProcessedJobs = 0;
-    public static long JobsInQueue = 0;
+    public static long totalClients = 0;
+    public static long ProcessedClients = 0;
+    public static long CLientsInQueue = 0;
     public static long CheckFreq = 0;
-    public static double MachineActiveTime = 0.0;
-    public static double MachineFailedTime = 0.0;
     
-    public MachineShop(boolean isBreaks) {
+    public Clinic(boolean isBreaks) {
         TotalResponseTime = 0.0;
-        TotalJobs = 0;
-        ProcessedJobs = 0;
-        JobsInQueue = 0;
+        totalClients = 0;
+        ProcessedClients = 0;
+        CLientsInQueue = 0;
         CheckFreq = 0;
-        MachineActiveTime = 0.0;
-        MachineFailedTime = 0.0;
     }
 
     public void run () {
@@ -55,21 +50,21 @@ public class MachineShop extends SimulationProcess {
             Arrivals A = new Arrivals(25, 40, 20, 40);
             
             //Preparation machines
-            idleQ1 = new ProcessQueue();
+            preparationIdleQ = new ProcessQueue();
             for (int i = 0; i < 3; i++) {
-            	idleQ1.Enqueue(new Machine1());
+            	preparationIdleQ.Enqueue(new Preapration());
             }
             
-            //Operation machine
-            op = new Machine2();
+            //Operation
+            op = new Operation();
             
-            //Recovery machines
-            idleQ2 = new ProcessQueueAlt<Machine3>();
+            //Recoveries
+            recoveryIdleQ = new ProcessQueueAlt<Recovery>();
             for (int i = 0; i < 3; i++) {
-            	idleQ2.enqueue(new Machine3());
+            	recoveryIdleQ.enqueue(new Recovery());
             }
             
-            //Monitor the operation machine and operation queue
+            //Monitor the operation and operation queue
             Monitor mon = new Monitor(100, op, opQ);
 
             mon.activate();
@@ -77,25 +72,18 @@ public class MachineShop extends SimulationProcess {
 
             Simulation.start();
 
-            while (MachineShop.ProcessedJobs < 1000)
+            while (Clinic.ProcessedClients < 1000)
                 hold(1000);
 
             System.out.println("Current time "+currentTime());
-            System.out.println("Total number of jobs present " + TotalJobs);
+            System.out.println("Total number of jobs present " + totalClients);
             System.out.println("Total number of jobs processed "
-                    + ProcessedJobs);
+                    + ProcessedClients);
             System.out.println("Total response time of " + TotalResponseTime);
             System.out.println("Average response time = "
-                    + (TotalResponseTime / ProcessedJobs));
-            /*
-            System.out
-                    .println("Probability that machine is working = "
-                            + ((MachineActiveTime - MachineFailedTime) / currentTime()));
-            System.out.println("Probability that machine has failed = "
-                    + (MachineFailedTime / MachineActiveTime));
-            */
+                    + (TotalResponseTime / ProcessedClients));
             System.out.println("Average number of jobs present = "
-                    + (JobsInQueue / CheckFreq));
+                    + (CLientsInQueue / CheckFreq));
             
             System.out.println("Average queue length of monitored machine = " + mon.avgQueueLength());
             System.out.println("Utilization of monitored machine = " + mon.utilization());
@@ -120,12 +108,12 @@ public class MachineShop extends SimulationProcess {
         SimulationProcess.mainSuspend();
     }
     
-    public static ProcessQueue getIdleQ1() {
-		return idleQ1;
+    public static ProcessQueue getPreaparationIdleQ() {
+		return preparationIdleQ;
 	}
     
-    public static ProcessQueueAlt<Machine3> getIdleQ2() {
-		return idleQ2;
+    public static ProcessQueueAlt<Recovery> getRecoveryIdleQ() {
+		return recoveryIdleQ;
 	}
     
     public static Queue getPreparationQueue() {
@@ -136,11 +124,7 @@ public class MachineShop extends SimulationProcess {
     	return opQ;
     }
     
-    public static Queue getRecoveryQueue() {
-    	return recQ;
-    }
-    
-    public static Machine2 getOperationTheatre() {
+    public static Operation getOperationTheatre() {
     	return op;
     }
 }

@@ -35,5 +35,9 @@ public class LehmerGenerator implements Analyzable {
     public void setX(int x) {
         this.x = x;
     }
+    
+    public double getX() {
+    	return new Double(x) / m;
+    }
 
 }

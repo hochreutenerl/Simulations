@@ -43,7 +43,7 @@ public class Queue
         return length;
     }
 
-    public Job dequeue () throws NoSuchElementException
+    public Client dequeue () throws NoSuchElementException
     {
         if (isEmpty())
             throw new NoSuchElementException();
@@ -56,7 +56,7 @@ public class Queue
         return ptr.work;
     }
 
-    public void enqueue (Job toadd)
+    public void enqueue (Client toadd)
     {
         if (toadd == null)
             return;
@@ -97,7 +97,7 @@ class List
         next = null;
     }
 
-    public Job work;
+    public Client work;
 
     public List next;
 }

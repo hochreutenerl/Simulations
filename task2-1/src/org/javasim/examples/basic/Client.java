@@ -24,14 +24,14 @@ import org.javasim.RestartException;
 import org.javasim.Scheduler;
 import org.javasim.SimulationException;
 
-public class Job {
+public class Client {
     private double ResponseTime;
     private double ArrivalTime;
     private double preparationTime;
     private double operationTime;
     private double recoveryTime;
     
-    public Job(double preparationTime, double operationTime, double recoveryTime) {
+    public Client(double preparationTime, double operationTime, double recoveryTime) {
 		this.preparationTime = preparationTime;
 		this.operationTime = operationTime;
 		this.recoveryTime = recoveryTime;
@@ -39,19 +39,19 @@ public class Job {
         ResponseTime = 0.0;
         ArrivalTime = Scheduler.currentTime();
 
-        Queue prepQ = MachineShop.getPreparationQueue();
+        Queue prepQ = Clinic.getPreparationQueue();
         boolean empty = prepQ.isEmpty();
         prepQ.enqueue(this);
-        MachineShop.TotalJobs++;
+        Clinic.totalClients++;
         
-        ProcessQueue idleQ = MachineShop.getIdleQ1();
+        ProcessQueue idleQ = Clinic.getPreaparationIdleQ();
         
-        //Start next machine if one is available and there are no jobs in the job queue ahead of this
+        //Start preparation if one is available and there are no clients in the client queue ahead of this
         if (!idleQ.IsEmpty() && empty) {
-        	Machine1 next = (Machine1) idleQ.getNextProcess();
-        	if (!next.processing() && next.isOperational()) {
+        	Preapration next = (Preapration) idleQ.getNextProcess();
+        	if (!next.processing()) {
         		try {
-            		next = (Machine1) idleQ.Dequeue();
+            		next = (Preapration) idleQ.Dequeue();
     				next.activate();
     			} catch (SimulationException e) {
     				e.printStackTrace();
@@ -64,7 +64,7 @@ public class Job {
 
     public void finished() {
         ResponseTime = Scheduler.currentTime() - ArrivalTime;
-        MachineShop.TotalResponseTime += ResponseTime;
+        Clinic.TotalResponseTime += ResponseTime;
     }
 
     public double preparationTime() {

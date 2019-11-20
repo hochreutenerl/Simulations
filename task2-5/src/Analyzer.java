@@ -14,8 +14,9 @@ public class Analyzer {
 
     public void run(int cycles, double upper_limit) {
         for (int i = 0; i < cycles; i++) {
+        	double xi = subject.getX();
             Double next = subject.nextDouble();
-            if(next < upper_limit) {
+            if(xi < upper_limit) {
                 numbers.add(next);
             }
         }

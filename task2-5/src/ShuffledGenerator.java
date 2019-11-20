@@ -3,6 +3,7 @@ public class ShuffledGenerator extends LehmerGenerator implements Analyzable {
     LehmerGenerator b;
     int[] randomTable;
     int size;
+    double previous;
 
     public ShuffledGenerator(int seed, int seed2, int size) {
         super(seed);
@@ -27,6 +28,7 @@ public class ShuffledGenerator extends LehmerGenerator implements Analyzable {
     public int nextValue() {
         int index = Math.floorMod(b.nextValue(), size);
         int next = randomTable[index];
+        previous = new Double(next) / m;
         randomTable[index] = a.nextValue();
         return next;
     }
@@ -34,5 +36,10 @@ public class ShuffledGenerator extends LehmerGenerator implements Analyzable {
     @Override
     public double nextDouble() {
         return new Double(nextValue()) / m;
+    }
+    
+    @Override
+    public double getX() {
+    	return previous;
     }
 }

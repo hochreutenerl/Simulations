@@ -24,32 +24,28 @@ import org.javasim.RestartException;
 import org.javasim.SimulationException;
 import org.javasim.SimulationProcess;
 
-public class Machine1 extends SimulationProcess {
-	private boolean operational;
+public class Preapration extends SimulationProcess {
     private boolean working;
-    private Job J;
+    private Client J;
     
-    public Machine1() {
-        operational = true;
+    public Preapration() {
         working = false;
         J = null;
     }
 
     public void run () {
-        double ActiveStart, ActiveEnd;
 
         while (!terminated())
         {
-        	Queue prepQ = MachineShop.getPreparationQueue();
-        	ProcessQueue idleQ = MachineShop.getIdleQ1();
-        	working = true;
+        	Queue prepQ = Clinic.getPreparationQueue();
+        	ProcessQueue idleQ = Clinic.getPreaparationIdleQ();
 
-            while (!prepQ.isEmpty())
-            {
-                ActiveStart = currentTime();
-                MachineShop.CheckFreq++;
+            while (!prepQ.isEmpty()) {
+            	working = true;
+            	
+                Clinic.CheckFreq++;
 
-                MachineShop.JobsInQueue += prepQ.queueSize();
+                Clinic.CLientsInQueue += prepQ.queueSize();
                 J = prepQ.dequeue();
 
                 try {
@@ -59,16 +55,13 @@ public class Machine1 extends SimulationProcess {
                 }
                 catch (RestartException e) {
                 }
-
-                ActiveEnd = currentTime();
-                MachineShop.MachineActiveTime += ActiveEnd - ActiveStart;
                 
                 //Add client to operation queue
-                Queue opQ = MachineShop.getOperationQueue();
+                Queue opQ = Clinic.getOperationQueue();
                 opQ.enqueue(J);
                 
-                //Activate operation machine if it isn't active
-                Machine2 m = MachineShop.getOperationTheatre();
+                //Activate operation if it isn't active
+                Operation m = Clinic.getOperationTheatre();
                 if (!m.processing()) {
                 	try {
 						m.activate();
@@ -77,30 +70,22 @@ public class Machine1 extends SimulationProcess {
 					} catch (RestartException e) {
 						e.printStackTrace();
 					}
+                } else {
+                	//System.out.println(m.isBlocked());
+                	System.out.println(Clinic.getRecoveryIdleQ().queueSize());
                 }
+                
+                working = false;
             }
 
             idleQ.Enqueue(this);
-            working = false;
-
+            
             try {
                 cancel();
             }
             catch (RestartException e) {
             }
         }
-    }
-
-    public void broken () {
-        operational = false;
-    }
-
-    public void fixed () {
-        operational = true;
-    }
-
-    public boolean isOperational () {
-        return operational;
     }
 
     public boolean processing () {
