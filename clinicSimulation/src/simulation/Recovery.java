@@ -1,4 +1,4 @@
-package org.javasim.examples.basic;
+package simulation;
 
 import org.javasim.RestartException;
 import org.javasim.SimulationException;
@@ -16,7 +16,7 @@ public class Recovery extends SimulationProcess {
     public void run () {
 
         while (!terminated()) {
-        	ProcessQueueAlt<Recovery> idleQ = Clinic.getRecoveryIdleQ();
+        	ProcessQueue<Recovery> idleQ = Clinic.getRecoveryIdleQ();
         	Operation ope = Clinic.getOperationTheatre();
 
             while (!ope.processing() && ope.hasClient()) {

@@ -1,4 +1,4 @@
-package org.javasim.examples.basic;
+package simulation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,10 @@ import java.util.NoSuchElementException;
  *
  * @param <T> the type of objects to store in the list
  */
-public class ProcessQueueAlt<T> {
+public class ProcessQueue<T> {
 	private List<T> q = new ArrayList<T>();
 	
-	public ProcessQueueAlt() {
+	public ProcessQueue() {
 		
 	}
 	

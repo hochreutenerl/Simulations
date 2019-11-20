@@ -18,17 +18,17 @@
  * (C) 1990-2008,
  */
 
-package org.javasim.examples.basic;
+package simulation;
 
 import org.javasim.RestartException;
 import org.javasim.SimulationException;
 import org.javasim.SimulationProcess;
 
-public class Preapration extends SimulationProcess {
+public class Preparation extends SimulationProcess {
     private boolean working;
     private Client J;
     
-    public Preapration() {
+    public Preparation() {
         working = false;
         J = null;
     }
@@ -38,7 +38,7 @@ public class Preapration extends SimulationProcess {
         while (!terminated())
         {
         	Queue prepQ = Clinic.getPreparationQueue();
-        	ProcessQueue idleQ = Clinic.getPreaparationIdleQ();
+        	ProcessQueue<Preparation> idleQ = Clinic.getPreaparationIdleQ();
 
             while (!prepQ.isEmpty()) {
             	working = true;
@@ -70,15 +70,12 @@ public class Preapration extends SimulationProcess {
 					} catch (RestartException e) {
 						e.printStackTrace();
 					}
-                } else {
-                	//System.out.println(m.isBlocked());
-                	System.out.println(Clinic.getRecoveryIdleQ().queueSize());
                 }
                 
                 working = false;
             }
 
-            idleQ.Enqueue(this);
+            idleQ.enqueue(this);
             
             try {
                 cancel();

@@ -18,7 +18,7 @@
  * (C) 1990-2008,
  */
 
-package org.javasim.examples.basic;
+package simulation;
 
 import org.javasim.Simulation;
 import org.junit.Test;

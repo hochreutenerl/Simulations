@@ -18,7 +18,7 @@
  * (C) 1990-2008,
  */
 
-package org.javasim.examples.basic;
+package simulation;
 
 import org.javasim.RestartException;
 import org.javasim.Scheduler;
@@ -44,14 +44,14 @@ public class Client {
         prepQ.enqueue(this);
         Clinic.totalClients++;
         
-        ProcessQueue idleQ = Clinic.getPreaparationIdleQ();
+        ProcessQueue<Preparation> idleQ = Clinic.getPreaparationIdleQ();
         
         //Start preparation if one is available and there are no clients in the client queue ahead of this
-        if (!idleQ.IsEmpty() && empty) {
-        	Preapration next = (Preapration) idleQ.getNextProcess();
+        if (!idleQ.isEmpty() && empty) {
+        	Preparation next = (Preparation) idleQ.getFirst();
         	if (!next.processing()) {
         		try {
-            		next = (Preapration) idleQ.Dequeue();
+            		next = (Preparation) idleQ.dequeue();
     				next.activate();
     			} catch (SimulationException e) {
     				e.printStackTrace();

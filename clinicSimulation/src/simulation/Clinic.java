@@ -18,7 +18,7 @@
  * (C) 1990-2008,
  */
 
-package org.javasim.examples.basic;
+package simulation;
 
 import org.javasim.RestartException;
 import org.javasim.Simulation;
@@ -28,8 +28,8 @@ import org.javasim.SimulationProcess;
 public class Clinic extends SimulationProcess {
 	private static Queue prepQ = new Queue();
 	private static Queue opQ = new Queue();
-    private static ProcessQueue preparationIdleQ;
-    private static ProcessQueueAlt<Recovery> recoveryIdleQ;
+    private static ProcessQueue<Preparation> preparationIdleQ;
+    private static ProcessQueue<Recovery> recoveryIdleQ;
     private static Operation op;
     public static double TotalResponseTime = 0.0;
     public static long totalClients = 0;
@@ -50,16 +50,16 @@ public class Clinic extends SimulationProcess {
             Arrivals A = new Arrivals(25, 40, 20, 40);
             
             //Preparation machines
-            preparationIdleQ = new ProcessQueue();
+            preparationIdleQ = new ProcessQueue<Preparation>();
             for (int i = 0; i < 3; i++) {
-            	preparationIdleQ.Enqueue(new Preapration());
+            	preparationIdleQ.enqueue(new Preparation());
             }
             
             //Operation
             op = new Operation();
             
             //Recoveries
-            recoveryIdleQ = new ProcessQueueAlt<Recovery>();
+            recoveryIdleQ = new ProcessQueue<Recovery>();
             for (int i = 0; i < 3; i++) {
             	recoveryIdleQ.enqueue(new Recovery());
             }
@@ -108,11 +108,11 @@ public class Clinic extends SimulationProcess {
         SimulationProcess.mainSuspend();
     }
     
-    public static ProcessQueue getPreaparationIdleQ() {
+    public static ProcessQueue<Preparation> getPreaparationIdleQ() {
 		return preparationIdleQ;
 	}
     
-    public static ProcessQueueAlt<Recovery> getRecoveryIdleQ() {
+    public static ProcessQueue<Recovery> getRecoveryIdleQ() {
 		return recoveryIdleQ;
 	}
     

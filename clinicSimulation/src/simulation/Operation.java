@@ -1,4 +1,4 @@
-package org.javasim.examples.basic;
+package simulation;
 
 import org.javasim.RestartException;
 import org.javasim.SimulationException;
@@ -19,8 +19,6 @@ public class Operation extends SimulationProcess {
 
         while (!terminated()) {
         	Queue opQ = Clinic.getOperationQueue();
-        	System.out.println(Clinic.getRecoveryIdleQ().queueSize());
-        	//ProcessQueue idleQ = MachineShop.getIdleQ1();
 
             while (!opQ.isEmpty() && !blocked) {
             	working = true;
@@ -38,7 +36,7 @@ public class Operation extends SimulationProcess {
                 catch (RestartException e) {
                 }
                 
-                ProcessQueueAlt<Recovery> idleQ = Clinic.getRecoveryIdleQ();
+                ProcessQueue<Recovery> idleQ = Clinic.getRecoveryIdleQ();
                 
                 //Start recovery if it's available
                 if (!idleQ.isEmpty()) {
@@ -61,7 +59,7 @@ public class Operation extends SimulationProcess {
 						e.printStackTrace();
 					}
                 }
-                System.out.println("here?"+blocked);
+                
                 working = false;
             }
 
@@ -86,7 +84,6 @@ public class Operation extends SimulationProcess {
 	public Client getClient() {
 		Client client = J;
 		J = null;
-		System.out.println(client.toString());
 		return client;
 	}
 
