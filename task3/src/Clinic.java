@@ -24,6 +24,9 @@ public class Clinic extends SimulationProcess {
     public static long CheckFreq = 0;
     public static double MachineActiveTime = 0.0;
 
+    final public static int PREPARATION_ROOMS = 3;
+    final public static int RECOVERY_ROOMS = 4;
+
     public Clinic() {
         ExponentialStream inter = new ExponentialStream(25);
         ExponentialStream pre = new ExponentialStream(40, 10);
@@ -31,12 +34,12 @@ public class Clinic extends SimulationProcess {
         ExponentialStream rec = new ExponentialStream(40, 30);
         A = new Arrivals(inter, pre, op, rec);
         Clinic.M = new OperationRoom();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < PREPARATION_ROOMS; i++) {
             PRooms[i] = new PreparationRoom();
             IWQ.add(PRooms[i]);
         }
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < RECOVERY_ROOMS; i++) {
             RRooms[i] = new RecoveryRoom();
             IRQ.add(RRooms[i]);
         }
