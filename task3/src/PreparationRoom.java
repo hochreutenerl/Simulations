@@ -5,7 +5,6 @@ public class PreparationRoom extends SimulationProcess {
     private boolean operational;
     private boolean working;
     private Patient J;
-    private Patient temp;
 
     public PreparationRoom() {
         working = false;
@@ -53,7 +52,7 @@ public class PreparationRoom extends SimulationProcess {
     }
 
     public Patient MyPatient() {
-        temp = J;
+        Patient temp = J;
         J = null;
         return temp;
     }

@@ -6,7 +6,6 @@ public class OperationRoom extends SimulationProcess {
     private boolean operational;
     private boolean working;
     private Patient J;
-    private PreparationRoom waitroom;
 
     public OperationRoom() {
         operational = true;
@@ -23,7 +22,7 @@ public class OperationRoom extends SimulationProcess {
                 ActiveStart = currentTime();
                 Clinic.CheckFreq++;
                 Clinic.JobsInQueue += Clinic.WaitQ.size();
-                waitroom = (PreparationRoom) Clinic.WaitQ.remove();
+                PreparationRoom waitroom = (PreparationRoom) Clinic.WaitQ.remove();
 //	    	J = Clinic.JobQ.remove();
                 J = waitroom.MyPatient();
                 try {

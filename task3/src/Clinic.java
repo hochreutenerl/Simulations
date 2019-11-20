@@ -73,8 +73,7 @@ public class Clinic extends SimulationProcess {
             monitor.terminate();
 
             SimulationProcess.mainResume();
-        } catch (SimulationException e) {
-        } catch (RestartException e) {
+        } catch (SimulationException | RestartException e) {
         }
     }
 

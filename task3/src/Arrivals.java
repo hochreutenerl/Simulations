@@ -10,7 +10,6 @@ public class Arrivals extends SimulationProcess {
     private RandomStream PreparationTime;
     private RandomStream OperationTime;
     private RandomStream RecoveryTime;
-    private PreparationRoom waitroom;
 
     public Arrivals(RandomStream inter, RandomStream pre, RandomStream op, RandomStream rec) {
         InterArrivalTime = inter;
@@ -29,7 +28,7 @@ public class Arrivals extends SimulationProcess {
 
                 if (empty && !Clinic.IWQ.isEmpty()) {
                     try {
-                        waitroom = (PreparationRoom) Clinic.IWQ.remove();
+                        PreparationRoom waitroom = (PreparationRoom) Clinic.IWQ.remove();
                         waitroom.activate();
                     } catch (SimulationException | RestartException e) {
                     }
