@@ -24,14 +24,24 @@ public class Clinic extends SimulationProcess {
     public static long CheckFreq = 0;
     public static double MachineActiveTime = 0.0;
 
-    final public static int PREPARATION_ROOMS = 3;
+    final public static int PREPARATION_ROOMS = 4;
     final public static int RECOVERY_ROOMS = 4;
 
     public Clinic() {
-        ExponentialStream inter = new ExponentialStream(25);
-        ExponentialStream pre = new ExponentialStream(40, 10);
-        ExponentialStream op = new ExponentialStream(20, 20);
-        ExponentialStream rec = new ExponentialStream(40, 30);
+        RandomStream inter = new ExponentialStream(25);
+        // RandomStream inter = new ExponentialStream(22.5);
+        // RandomStream inter = new UniformStream(20, 30);
+        // RandomStream inter = new UniformStream(20, 25);
+
+
+        RandomStream pre = new ExponentialStream(40, 10);
+        // RandomStream pre = new UniformStream(30, 50, 10);
+
+        RandomStream rec = new ExponentialStream(40, 30);
+        // RandomStream rec = new UniformStream(30, 50, 30);
+
+
+        RandomStream op = new ExponentialStream(20, 20);
         A = new Arrivals(inter, pre, op, rec);
         Clinic.M = new OperationRoom();
         for (int i = 0; i < PREPARATION_ROOMS; i++) {
