@@ -24,26 +24,29 @@ public class Clinic extends SimulationProcess {
     public static long CheckFreq = 0;
     public static double MachineActiveTime = 0.0;
 
-    final public static int PREPARATION_ROOMS = 4;
-    final public static int RECOVERY_ROOMS = 4;
+    public static int PREPARATION_ROOMS = 4;
+    public static int RECOVERY_ROOMS = 4;
 
-    public Clinic() {
-        RandomStream inter = new ExponentialStream(25);
-        // RandomStream inter = new ExponentialStream(22.5);
-        // RandomStream inter = new UniformStream(20, 30);
-        // RandomStream inter = new UniformStream(20, 25);
+    public Clinic(RandomStream arrival, RandomStream preparation, RandomStream recovery, int preparationUnits, int recoveryUnits) {
+        RandomStream inter = arrival;
 
+        RandomStream pre = preparation;
 
-        RandomStream pre = new ExponentialStream(40, 10);
-        // RandomStream pre = new UniformStream(30, 50, 10);
-
-        RandomStream rec = new ExponentialStream(40, 30);
-        // RandomStream rec = new UniformStream(30, 50, 30);
+        RandomStream rec = recovery;
 
 
         RandomStream op = new ExponentialStream(20, 20);
+        
         A = new Arrivals(inter, pre, op, rec);
+        
         Clinic.M = new OperationRoom();
+        
+        PREPARATION_ROOMS = preparationUnits;
+        RECOVERY_ROOMS = recoveryUnits;
+        
+        PRooms = new PreparationRoom[preparationUnits];
+        RRooms = new RecoveryRoom[recoveryUnits];
+        
         for (int i = 0; i < PREPARATION_ROOMS; i++) {
             PRooms[i] = new PreparationRoom();
             IWQ.add(PRooms[i]);
@@ -84,6 +87,13 @@ public class Clinic extends SimulationProcess {
             A.terminate();
             Clinic.M.terminate();
             monitor.terminate();
+            
+            for (PreparationRoom prep : PRooms) {
+            	prep.terminate();
+            }
+            for (RecoveryRoom rec : RRooms) {
+            	rec.terminate();
+            }
 
             SimulationProcess.mainResume();
         } catch (SimulationException | RestartException e) {

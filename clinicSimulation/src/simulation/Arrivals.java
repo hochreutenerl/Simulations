@@ -43,8 +43,8 @@ public class Arrivals extends SimulationProcess {
     public void run() {
         while (!terminated()) {
             try {
+            	new Client(preaprationTime.getNumber(), operationTime.getNumber(), recoveryTime.getNumber());
                 hold(interArrivalTime.getNumber());
-                new Client(preaprationTime.getNumber(), operationTime.getNumber(), recoveryTime.getNumber());
             } catch (SimulationException e) {
             	
             } catch (RestartException e) {

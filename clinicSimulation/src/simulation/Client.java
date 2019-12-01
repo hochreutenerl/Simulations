@@ -46,12 +46,12 @@ public class Client {
         
         ProcessQueue<Preparation> idleQ = Clinic.getPreaparationIdleQ();
         
-        //Start preparation if one is available and there are no clients in the client queue ahead of this
+        //Start preparation if one is available and there are no clients in the client queue
         if (!idleQ.isEmpty() && empty) {
-        	Preparation next = (Preparation) idleQ.getFirst();
+        	Preparation next = idleQ.getFirst();
         	if (!next.processing()) {
         		try {
-            		next = (Preparation) idleQ.dequeue();
+            		next = idleQ.dequeue();
     				next.activate();
     			} catch (SimulationException e) {
     				e.printStackTrace();

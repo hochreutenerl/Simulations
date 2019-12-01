@@ -60,7 +60,7 @@ public class Clinic extends SimulationProcess {
             
             //Recoveries
             recoveryIdleQ = new ProcessQueue<Recovery>();
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 5; i++) {
             	recoveryIdleQ.enqueue(new Recovery());
             }
             
@@ -72,7 +72,7 @@ public class Clinic extends SimulationProcess {
 
             Simulation.start();
 
-            while (Clinic.ProcessedClients < 1000)
+            while (Clinic.ProcessedClients < 1600)
                 hold(1000);
 
             System.out.println("Current time "+currentTime());
